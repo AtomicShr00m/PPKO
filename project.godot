@@ -11,10 +11,38 @@ config_version=4
 [application]
 
 config/name="PPKO"
+run/main_scene="res://Rooms/Stage.tscn"
+
+[display]
+
+window/size/width=1280
+window/size/height=720
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
 
 [gui]
 
 common/drop_mouse_on_gui_input_disabled=true
+
+[input]
+
+punch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[layer_names]
+
+2d_physics/layer_1="player"
+2d_physics/layer_2="enemies"
+2d_physics/layer_3="blocks"
+2d_physics/layer_4="bullets"
+2d_physics/layer_5="powerups"
 
 [physics]
 
