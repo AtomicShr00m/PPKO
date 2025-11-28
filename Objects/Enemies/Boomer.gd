@@ -1,5 +1,6 @@
 extends KinematicBody2D
 
+var atk_num:=7
 var health:=100.0
 var motion:Vector2
 
@@ -8,27 +9,40 @@ const FRICTION=7.0
 const ACCEL=10.0
 
 var target:Node2D
+var is_safe:=false
 onready var sprite = $Sprite
 onready var anim = $AnimationPlayer
 onready var blast_spawn = $Sprite/BlastSpawn
 onready var blastScn = preload("res://Objects/Enemies/Blast.tscn")
+onready var health_bar = $HealthBar
 
 func _ready():
 	choose_shot()
 
 func shoot(charged:=false):
-	for n in 4:
+	for n in atk_num:
 		var blast=blastScn.instance()
 		blast.position=blast_spawn.global_position
-		blast.dir=Vector2(1,0).rotated(sprite.rotation).rotated(rand_range(-PI/4,PI/4))
+		var aim=Vector2.RIGHT.rotated(sprite.rotation)
+		var turn=n-int(atk_num/2.0)
+		blast.dir=aim.rotated(turn * (PI/8))
 		blast.scale=Vector2.ONE*(int(charged) + 1)
 		get_parent().add_child(blast)
 
 func hit(dmg,from):
-	health-=dmg
-	if health<=0:
-		queue_free()
-	motion=from*400
+	if !is_safe:
+		health-=dmg
+		if health<=0:
+			queue_free()
+		else:
+			is_safe=true
+			motion=from*500
+			health_bar.update_value(health)
+			var tween=create_tween()
+			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.25)
+			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.25)
+			yield(tween,"finished")
+			is_safe=false
 
 func _physics_process(delta):
 	var dir:=Vector2.ZERO

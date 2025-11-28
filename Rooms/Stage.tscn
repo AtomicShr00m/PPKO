@@ -47,7 +47,7 @@ shape = SubResource( 2 )
 
 [node name="Background" type="Polygon2D" parent="."]
 z_index = -100
-color = Color( 0.666667, 0.862745, 1, 1 )
+color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360 )
 
 [node name="Blackout" type="Polygon2D" parent="Background"]
@@ -57,9 +57,14 @@ invert_enable = true
 invert_border = 200.0
 polygon = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360 )
 
+[node name="Outline" type="Line2D" parent="Background"]
+points = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360, -960, -360 )
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+
 [node name="SpawnTimer" type="Timer" parent="."]
 process_mode = 0
-wait_time = 5.0
 one_shot = true
 autostart = true
 
