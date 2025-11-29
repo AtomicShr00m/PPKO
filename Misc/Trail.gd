@@ -5,6 +5,7 @@ export var length:=16
 
 func _ready():
 	set_as_toplevel(true)
+	modulate=get_parent().self_modulate
 	length*=get_parent().scale.x
 	width*=get_parent().scale.x
 

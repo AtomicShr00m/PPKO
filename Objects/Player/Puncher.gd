@@ -1,7 +1,8 @@
 extends KinematicBody2D
 
+#HeartRegen(2),AtkSpd,Power(2),Shield,DefenceUp(2),DashAtk
 var health:=100.0
-var atk_power:=5.0
+var atk_power:=7.5
 
 const ACCEL=5.0
 const SPEED=500.0
@@ -18,41 +19,48 @@ var target:Node2D
 var is_safe:=false
 var dir:Vector2
 var motion:Vector2
-onready var sprite = $Sprite
-onready var anim = $AnimationPlayer
-onready var punch_check = $PunchCheck
-onready var health_bar = $HealthBar
-onready var dash_key_timer = $DashKeyTimer
-onready var trail = $Trail
+onready var sprite := $Sprite
+onready var anim := $AnimationPlayer
+onready var punch_check := $PunchCheck
+onready var health_bar := $HealthBar
+onready var dash_key_timer := $DashKeyTimer
+onready var trail := $Trail
+onready var effect_manager = $EffectManager
 
 signal just_hit
 signal popped
+var dmg_multiplier:=1.0
+var spd_multiplier:=1.0
+var stm_multiplier:=1.0
+var can_dash:=true
 
 func _ready():
 	trail.enabled=false
 
-func hit(dmg,from):
+func hit(dmg,from,effect:String):
 	if !is_safe:
-		health-=dmg
+		health-=dmg*dmg_multiplier
 		emit_signal("just_hit")
 		if health<=0:
 			emit_signal("popped")
 			queue_free()
 		else:
 			is_safe=true
-			motion=from*1000*(dmg/10.0)
+			if !is_dashing and !trail.enabled:
+				motion=from*1000*(dmg/10.0)*stm_multiplier
 			var tween=create_tween()
 			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.1)
 			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.1)
 			yield(tween,"finished")
 			is_safe=false
+		effect_manager.receive_effect(effect)
 
 func handle_movement(delta):
 	dir=Input.get_vector("ui_left","ui_right","ui_up","ui_down")
 	if dir==Vector2.ZERO:
 		motion=lerp(motion,Vector2.ZERO,FRICTION*delta)
 	else:
-		motion=lerp(motion,dir*SPEED,ACCEL*delta)
+		motion=lerp(motion,dir*SPEED*spd_multiplier,ACCEL*delta)
 
 func handle_dashing():
 	for key in DASH_DIRS:
@@ -66,11 +74,13 @@ func handle_dashing():
 				motion=DASH_DIRS[key]*DASH_SPEED
 				trail.enabled=true
 				is_dashing=true
+				health_bar.scale=Vector2(0.75,0.75)
 				var timer=create_tween().tween_interval(dash_time)
 				yield(timer,"finished")
 				is_dashing=false
-				yield(create_tween().tween_property(trail,"length",0,0.5),"finished")
+				yield(create_tween().tween_property(trail,"length",0,0.25),"finished")
 				trail.enabled=false
+				health_bar.scale=Vector2.ONE
 				trail.clear_points()
 				trail.length=32
 
@@ -86,7 +96,8 @@ func _physics_process(delta):
 	if !is_dashing:
 		handle_movement(delta)
 		handle_aiming()
-		handle_dashing()
+		if !trail.enabled and can_dash:
+			handle_dashing()
 	motion=move_and_slide(motion)
 
 func _on_HurtBox_body_entered(body):

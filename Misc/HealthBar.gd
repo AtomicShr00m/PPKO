@@ -1,11 +1,16 @@
 extends Node2D
 
+var draw_color:Color
 var value:=100.0
 export var size:=48
-export var theme:Color
+
+func _ready():
+	modulate=Color.white
+	draw_color=get_parent().self_modulate
 
 func _draw():
-	draw_arc(Vector2.ZERO,size,0,TAU*(value/100),int(size/2.0),theme,size/8.0,true)
+	var angle:=TAU*(value/100)
+	draw_arc(Vector2.ZERO,size,0,angle,int(size/2.0),draw_color,size/8.0,true)
 
 func _physics_process(delta):
 	if value!=get_parent().health:

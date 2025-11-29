@@ -6,7 +6,7 @@
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=3]
-colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 0.8 )
 
 [node name="Trail" type="Line2D"]
 width = 20.0
