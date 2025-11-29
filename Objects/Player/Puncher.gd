@@ -1,11 +1,11 @@
 extends KinematicBody2D
 
 var health:=100.0
-var atk_power:=10.0
+var atk_power:=5.0
 
-const ACCEL=10.0
+const ACCEL=5.0
 const SPEED=500.0
-const FRICTION=7.0
+const FRICTION=3.0
 
 const DASH_DIRS={"ui_left":Vector2.LEFT,"ui_right":Vector2.RIGHT,"ui_up":Vector2.UP,
 "ui_down":Vector2.DOWN}
@@ -23,20 +23,27 @@ onready var anim = $AnimationPlayer
 onready var punch_check = $PunchCheck
 onready var health_bar = $HealthBar
 onready var dash_key_timer = $DashKeyTimer
+onready var trail = $Trail
+
+signal just_hit
+signal popped
+
+func _ready():
+	trail.enabled=false
 
 func hit(dmg,from):
 	if !is_safe:
 		health-=dmg
+		emit_signal("just_hit")
 		if health<=0:
+			emit_signal("popped")
 			queue_free()
-			get_tree().paused=true
 		else:
 			is_safe=true
-			motion=from*500
-			health_bar.update_value(health)
+			motion=from*1000*(dmg/10.0)
 			var tween=create_tween()
-			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.25)
-			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.25)
+			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.1)
+			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.1)
 			yield(tween,"finished")
 			is_safe=false
 
@@ -57,10 +64,15 @@ func handle_dashing():
 				dash_key_timer.stop()
 				dash_key=''
 				motion=DASH_DIRS[key]*DASH_SPEED
+				trail.enabled=true
 				is_dashing=true
 				var timer=create_tween().tween_interval(dash_time)
 				yield(timer,"finished")
 				is_dashing=false
+				yield(create_tween().tween_property(trail,"length",0,0.5),"finished")
+				trail.enabled=false
+				trail.clear_points()
+				trail.length=32
 
 func handle_aiming():
 	if is_instance_valid(target):
@@ -75,8 +87,9 @@ func _physics_process(delta):
 		handle_movement(delta)
 		handle_aiming()
 		handle_dashing()
-		
 	motion=move_and_slide(motion)
 
 func _on_HurtBox_body_entered(body):
-	body.hit(atk_power,Vector2.RIGHT.rotated(sprite.rotation))
+	var aim:=Vector2.RIGHT.rotated(sprite.rotation)
+	body.hit(atk_power,aim)
+	motion=-aim*SPEED*2

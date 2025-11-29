@@ -12,9 +12,9 @@ var target:Node2D
 var is_safe:=false
 onready var sprite = $Sprite
 onready var anim = $AnimationPlayer
+onready var health_bar = $HealthBar
 onready var blast_spawn = $Sprite/BlastSpawn
 onready var blastScn = preload("res://Objects/Enemies/Blast.tscn")
-onready var health_bar = $HealthBar
 
 func _ready():
 	choose_shot()
@@ -37,17 +37,17 @@ func hit(dmg,from):
 		else:
 			is_safe=true
 			motion=from*500
-			health_bar.update_value(health)
 			var tween=create_tween()
-			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.25)
-			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.25)
+			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.1)
+			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.1)
 			yield(tween,"finished")
 			is_safe=false
 
 func _physics_process(delta):
 	var dir:=Vector2.ZERO
 	if is_instance_valid(target):
-		sprite.look_at(target.position)
+		if anim.is_playing():
+			sprite.look_at(target.position)
 	elif dir!=Vector2.ZERO:
 		sprite.rotation=dir.angle()
 	if dir==Vector2.ZERO:
@@ -57,6 +57,8 @@ func _physics_process(delta):
 	motion=move_and_slide(motion)
 
 func choose_shot():
+	anim.play("RESET")
+	yield(create_tween().tween_interval(1),"finished")
 	anim.play(["Regular","Triple","Charged"].pick_random())
 
 func _on_shoot_animation_finished(anim_name):

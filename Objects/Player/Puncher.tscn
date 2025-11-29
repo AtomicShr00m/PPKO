@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Sprites/player.png" type="Texture" id=1]
 [ext_resource path="res://Objects/Player/Puncher.gd" type="Script" id=2]
 [ext_resource path="res://Sprites/fist.png" type="Texture" id=3]
 [ext_resource path="res://Misc/HealthBar.gd" type="Script" id=4]
+[ext_resource path="res://Objects/Deco/Trail.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -151,6 +152,11 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PunchCheck"]
 shape = SubResource( 5 )
+
+[node name="Trail" parent="." instance=ExtResource( 5 )]
+z_index = -1
+width = 32.0
+length = 32
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Punch = SubResource( 3 )
