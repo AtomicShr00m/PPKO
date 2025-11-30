@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bullet4.png-9d8124df806a6ead8dd1ac59d43e1dd2.stex"
+path="res://.import/defence.png-0ac3795fd4b78c1022b2940cc7a94dbf.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/bullet4.png"
-dest_files=[ "res://.import/bullet4.png-9d8124df806a6ead8dd1ac59d43e1dd2.stex" ]
+source_file="res://Sprites/Powerups/defence.png"
+dest_files=[ "res://.import/defence.png-0ac3795fd4b78c1022b2940cc7a94dbf.stex" ]
 
 [params]
 

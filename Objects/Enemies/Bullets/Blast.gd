@@ -4,7 +4,7 @@ var dir:Vector2
 export var power=10
 export var effect:String
 
-const SPEED=600
+const SPEED=800
 onready var particleScn=preload("res://Objects/Deco/HitParticles.tscn")
 onready var sprite = $Sprite
 

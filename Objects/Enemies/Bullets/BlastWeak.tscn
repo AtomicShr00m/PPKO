@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Objects/Deco/Trail.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Enemies/Bullets/Blast.gd" type="Script" id=2]
-[ext_resource path="res://Sprites/bullet5.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Bullets/bullet5.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 5.0

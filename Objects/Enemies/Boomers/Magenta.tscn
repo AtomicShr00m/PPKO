@@ -3,8 +3,8 @@
 [ext_resource path="res://Objects/Enemies/Bullets/BlastWeak.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Objects/Enemies/Boomers/Boomer.gd" type="Script" id=2]
 [ext_resource path="res://Misc/HealthBar.gd" type="Script" id=3]
-[ext_resource path="res://Sprites/enemy.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/bullet5.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Bodies/enemy.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Bullets/bullet5.png" type="Texture" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 32.0

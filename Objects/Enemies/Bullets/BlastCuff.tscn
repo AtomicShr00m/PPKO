@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Sprites/bullet4.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Bullets/bullet4.png" type="Texture" id=1]
 [ext_resource path="res://Objects/Enemies/Bullets/Blast.gd" type="Script" id=2]
 [ext_resource path="res://Objects/Deco/Trail.tscn" type="PackedScene" id=3]
 
