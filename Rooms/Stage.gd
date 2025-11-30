@@ -7,6 +7,7 @@ onready var player = $Puncher
 onready var enemy_loader = $EnemyLoader
 onready var spawn_timer = $SpawnTimer
 onready var powerupScn = preload("res://Objects/Powerups/Powerup.tscn")
+onready var ui_layer = $UILayer
 
 func _ready():
 	randomize()
@@ -22,14 +23,14 @@ func setup_roster():
 func enemy_popped():
 	player.effect_manager.end_effect()
 	if roster.empty():
-		#win
-		pass
+		ui_layer.gameover(false)
 	else:
 		spawn_powerups()
 
-func clear_powerups():
+func clear_powerups(type):
 	for obj in get_tree().get_nodes_in_group("powerups"):
-		obj.close()
+		if obj.type!=type:
+			obj.close()
 	yield(create_tween().tween_interval(1.0),"finished")
 	spawn_enemy()
 
@@ -38,9 +39,10 @@ func spawn_powerups():
 	var manager=player.powerup_manager
 	for n in 3:
 		var powerup=powerupScn.instance()
-		powerup.position.x=(n-1)*128
+		powerup.position.x=(n-1)*192
 		powerup.type=POWERUPS.pick_random()
 		powerup.connect("popped",self,'clear_powerups')
+		powerup.connect("popped",ui_layer,'update_powerups')
 		while spawned.has(powerup.type) or manager.powers.has(powerup.type):
 			powerup.type=POWERUPS.pick_random()
 		call_deferred("add_child",powerup)
@@ -48,6 +50,7 @@ func spawn_powerups():
 
 func spawn_enemy():
 	var enemy_name=roster.pop_front()
+	ui_layer.update_battle(4-roster.size())
 	var enemy:Boomer=enemy_loader.get_resource(enemy_name).instance()
 	enemy.atk_num=1+2*(3-roster.size())
 	enemy.position.x=rand_range(-320,320)
@@ -58,3 +61,9 @@ func spawn_enemy():
 	cam.enemy=enemy
 	enemy.target=player
 	player.target=enemy
+
+func _on_GameTimer_timeout():
+	player.pop()
+
+func _on_Puncher_popped():
+	ui_layer.gameover(true)

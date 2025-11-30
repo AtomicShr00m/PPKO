@@ -13,7 +13,7 @@ func pick_power(type):
 			get_parent().hp_regen=true
 		'speed':
 			anim.playback_speed=2.0
-			get_parent().spd_multiplier=2.0
+			get_parent().spd_multiplier=1.5
 		'strength':
 			get_parent().str_multiplier=1.5
 		'shield':

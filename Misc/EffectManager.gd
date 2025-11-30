@@ -56,6 +56,7 @@ func end_effect():
 			fists.show()
 			punch_col.set_deferred('disabled',false)
 	current=''
+	effect_timer.stop()
 
 func _physics_process(_delta):
 	update()

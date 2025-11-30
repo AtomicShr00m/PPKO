@@ -1,15 +1,25 @@
 extends KinematicBody2D
 
+signal popped
+signal just_hit
+
+var can_dash:=true
+var is_dazed:=false
 var hp_regen:=false
 var health:=100.0
 var atk_power:=7.5
 var str_multiplier:=1.0
+var dmg_multiplier:=1.0
+var spd_multiplier:=1.0
+var stm_multiplier:=1.0
 
 const ACCEL=5.0
 const SPEED=500.0
 const FRICTION=3.0
 const DASH_SPEED=1000
 const DASH_DIRS={"ui_left":Vector2.LEFT,"ui_right":Vector2.RIGHT,"ui_up":Vector2.UP,"ui_down":Vector2.DOWN}
+var dir:Vector2
+var motion:Vector2
 
 var dash_key:=''
 var dash_time:=0.15
@@ -17,27 +27,22 @@ var is_dashing:=false
 
 var target:Node2D
 var is_safe:=false
-var dir:Vector2
-var motion:Vector2
 
-onready var sprite := $Sprite
 onready var anim := $AnimationPlayer
-onready var punch_check := $PunchCheck
-onready var health_bar := $HealthBar
-onready var dash_key_timer := $DashKeyTimer
 onready var trail := $Trail
-onready var effect_manager = $EffectManager
-onready var powerup_manager = $PowerupManager
-onready var dash_col = $DashBox/CollisionShape2D
-onready var shield = $Shield
+onready var shield := $Shield
+onready var sprite := $Sprite
+onready var dash_box := $DashBox
+onready var dash_col := $DashBox/CollisionShape2D
+onready var health_bar := $HealthBar
+onready var punch_check := $PunchCheck
+onready var dash_key_timer := $DashKeyTimer
+onready var effect_manager := $EffectManager
+onready var powerup_manager := $PowerupManager
 
-signal just_hit
-signal popped
-var dmg_multiplier:=1.0
-var spd_multiplier:=1.0
-var stm_multiplier:=1.0
-var can_dash:=true
-var is_dazed:=false
+func pop():
+	emit_signal("popped")
+	queue_free()
 
 func _ready():
 	trail.enabled=false
@@ -47,12 +52,11 @@ func hit(dmg,from,effect:String):
 		health-=dmg*dmg_multiplier*int(!shield.visible)
 		emit_signal("just_hit")
 		if health<=0:
-			emit_signal("popped")
-			queue_free()
+			pop()
 		else:
 			is_safe=true
 			if !is_dashing and !trail.enabled:
-				motion=from*1000*(dmg/10.0)*stm_multiplier*int(!shield.visible)
+				motion=from*1000*stm_multiplier*int(!shield.visible)
 			var tween=create_tween()
 			tween.tween_property(sprite.material,"shader_param/fade",1.0,0.1)
 			tween.tween_property(sprite.material,"shader_param/fade",0.0,0.1)
@@ -114,10 +118,9 @@ func _physics_process(delta):
 	motion=move_and_slide(motion)
 
 func _on_HurtBox_body_entered(body):
-	if dash_col.disabled:
-		var aim:=Vector2.RIGHT.rotated(sprite.rotation)
-		body.hit(atk_power*str_multiplier,aim)
-		motion=-aim*SPEED*2*stm_multiplier
+	var aim:=Vector2.RIGHT.rotated(sprite.rotation)
+	body.hit(atk_power*str_multiplier,aim)
+	motion=-aim*SPEED*2*stm_multiplier
 
 func _on_DashBox_area_entered(area):
 	powerup_manager.pick_power(area.type)
@@ -125,4 +128,5 @@ func _on_DashBox_area_entered(area):
 
 func _on_DashBox_body_entered(body):
 	var aim:=Vector2.RIGHT.rotated(sprite.rotation)
-	body.hit(atk_power*str_multiplier*1.5,aim)
+	body.hit(atk_power*str_multiplier*1.5,aim*2)
+	motion=-aim*SPEED*stm_multiplier

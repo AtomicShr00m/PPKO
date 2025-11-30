@@ -1,0 +1,375 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Rooms/Home.gd" type="Script" id=1]
+[ext_resource path="res://Misc/Roboto_Condensed-Black.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sprites/Bodies/enemy.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Bullets/bullet1.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Bullets/bullet3.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Bullets/bullet5.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Bullets/bullet2.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Bullets/bullet6.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Bullets/bullet4.png" type="Texture" id=11]
+
+[sub_resource type="DynamicFont" id=1]
+size = 96
+extra_spacing_char = 16
+font_data = ExtResource( 2 )
+
+[node name="Home" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="Background" type="Polygon2D" parent="."]
+position = Vector2( 640, 360 )
+z_index = -100
+color = Color( 0, 0, 0, 1 )
+polygon = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360 )
+
+[node name="Blackout" type="Polygon2D" parent="Background"]
+z_index = 4096
+color = Color( 0, 0, 0, 1 )
+invert_enable = true
+invert_border = 200.0
+polygon = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360 )
+
+[node name="Outline" type="Line2D" parent="Background"]
+points = PoolVector2Array( -960, -360, 960, -360, 960, 360, -960, 360, -960, -360 )
+default_color = Color( 1, 1, 1, 1 )
+begin_cap_mode = 1
+end_cap_mode = 1
+
+[node name="MainMenu" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 32.0
+margin_right = -32.0
+margin_bottom = -32.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainMenu"]
+margin_right = 1216.0
+margin_bottom = 656.0
+
+[node name="Title" type="Label" parent="MainMenu/VBoxContainer"]
+margin_top = 239.0
+margin_right = 1216.0
+margin_bottom = 353.0
+size_flags_vertical = 6
+size_flags_stretch_ratio = 5.0
+custom_fonts/font = SubResource( 1 )
+text = "P.P.K.O"
+align = 1
+valign = 1
+
+[node name="Buttons" type="HBoxContainer" parent="MainMenu/VBoxContainer"]
+margin_top = 596.0
+margin_right = 1216.0
+margin_bottom = 656.0
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+custom_constants/separation = 192
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
+margin_right = 277.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+text = "Play"
+
+[node name="HelpButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
+margin_left = 469.0
+margin_right = 746.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+text = "Help"
+
+[node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
+margin_left = 938.0
+margin_right = 1216.0
+margin_bottom = 60.0
+size_flags_horizontal = 3
+text = "Quit"
+
+[node name="HelpMenu" type="MarginContainer" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 32.0
+margin_top = 32.0
+margin_right = -32.0
+margin_bottom = -32.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HelpMenu"]
+margin_right = 1216.0
+margin_bottom = 656.0
+custom_constants/separation = 32
+alignment = 1
+
+[node name="Main" type="VBoxContainer" parent="HelpMenu/VBoxContainer"]
+margin_right = 1216.0
+margin_bottom = 567.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 5.0
+
+[node name="Main" type="Label" parent="HelpMenu/VBoxContainer/Main"]
+margin_right = 1216.0
+margin_bottom = 321.0
+text = "GOAL
+Defeat 4 opponents, one after the other, before the timer runs out. Dodge enemy bullets and move close to your target to automatically punch them.
+When an enemy is defeated, choose 1 from 3 powerups to help in the next battle.
+
+CONTROLS  
+Movement - WASD / Arrow Keys
+Pause - Escape Key
+Attack - Move close to an enemy to punch
+Dash - Double-tap WASD / Arrow key to dash in that specific direction
+
+
+"
+align = 1
+
+[node name="Enemies" type="Label" parent="HelpMenu/VBoxContainer/Main"]
+margin_top = 325.0
+margin_right = 1216.0
+margin_bottom = 349.0
+text = "ENEMIES"
+align = 1
+
+[node name="GridContainer" type="GridContainer" parent="HelpMenu/VBoxContainer/Main"]
+margin_left = 216.0
+margin_top = 353.0
+margin_right = 1000.0
+margin_bottom = 567.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+custom_constants/hseparation = 64
+columns = 2
+
+[node name="White" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_right = 360.0
+margin_bottom = 69.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/White"]
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/White"]
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 6 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/White"]
+margin_left = 104.0
+margin_top = 9.0
+margin_right = 360.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 256, 0 )
+text = "A regular enemy with no special bullets"
+autowrap = true
+
+[node name="Green" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_left = 424.0
+margin_right = 784.0
+margin_bottom = 69.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Green"]
+modulate = Color( 0, 1, 0, 1 )
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet2" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Green"]
+modulate = Color( 0, 1, 0, 1 )
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 11 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/Green"]
+margin_left = 104.0
+margin_top = 9.0
+margin_right = 360.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 256, 0 )
+text = "Its bullets disables the player's ability to punch"
+autowrap = true
+
+[node name="Aqua" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_top = 73.0
+margin_right = 360.0
+margin_bottom = 142.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Aqua"]
+modulate = Color( 0, 1, 1, 1 )
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet3" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Aqua"]
+modulate = Color( 0, 1, 1, 1 )
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/Aqua"]
+margin_left = 104.0
+margin_top = 9.0
+margin_right = 360.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 256, 0 )
+text = "Its bullets reverses the player's movement"
+autowrap = true
+
+[node name="Blue" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_left = 424.0
+margin_top = 73.0
+margin_right = 784.0
+margin_bottom = 142.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Blue"]
+modulate = Color( 0, 0, 1, 1 )
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet4" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Blue"]
+modulate = Color( 0, 0, 1, 1 )
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 10 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/Blue"]
+margin_left = 104.0
+margin_top = 9.0
+margin_right = 360.0
+margin_bottom = 60.0
+rect_min_size = Vector2( 256, 0 )
+text = "Its bullets reduces speed and disables dashes"
+autowrap = true
+
+[node name="Yellow" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_top = 146.0
+margin_right = 360.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Yellow"]
+modulate = Color( 1, 1, 0, 1 )
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet5" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Yellow"]
+modulate = Color( 1, 1, 0, 1 )
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 9 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/Yellow"]
+margin_left = 104.0
+margin_top = 8.0
+margin_right = 360.0
+margin_bottom = 59.0
+rect_min_size = Vector2( 256, 0 )
+text = "Fires bullets with extreme knockback force"
+autowrap = true
+
+[node name="Magenta" type="HBoxContainer" parent="HelpMenu/VBoxContainer/Main/GridContainer"]
+margin_left = 424.0
+margin_top = 146.0
+margin_right = 784.0
+margin_bottom = 214.0
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Magenta"]
+modulate = Color( 1, 0, 1, 1 )
+margin_top = 2.0
+margin_right = 64.0
+margin_bottom = 66.0
+rect_min_size = Vector2( 64, 64 )
+size_flags_vertical = 4
+texture = ExtResource( 5 )
+expand = true
+
+[node name="Bullet6" type="TextureRect" parent="HelpMenu/VBoxContainer/Main/GridContainer/Magenta"]
+modulate = Color( 1, 0, 1, 1 )
+margin_left = 74.0
+margin_top = 24.0
+margin_right = 94.0
+margin_bottom = 44.0
+size_flags_vertical = 6
+texture = ExtResource( 8 )
+
+[node name="Label" type="Label" parent="HelpMenu/VBoxContainer/Main/GridContainer/Magenta"]
+margin_left = 104.0
+margin_top = 8.0
+margin_right = 360.0
+margin_bottom = 59.0
+rect_min_size = Vector2( 256, 0 )
+text = "Fires bullets that reduce player's defences"
+autowrap = true
+
+[node name="ReturnButton" type="Button" parent="HelpMenu/VBoxContainer"]
+margin_left = 512.0
+margin_top = 599.0
+margin_right = 704.0
+margin_bottom = 656.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 192, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+text = "Return"
+
+[connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/HelpButton" to="." method="_on_HelpButton_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]
+[connection signal="pressed" from="HelpMenu/VBoxContainer/ReturnButton" to="." method="_on_ReturnButton_pressed"]
