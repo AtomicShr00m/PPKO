@@ -49,6 +49,7 @@ func _ready():
 
 func hit(dmg,from,effect:String):
 	if !is_safe:
+		AudioManager.play_sound("Hit")
 		health-=dmg*dmg_multiplier*int(!shield.visible)
 		emit_signal("just_hit")
 		if health<=0:
@@ -87,7 +88,7 @@ func handle_dashing():
 				trail.enabled=true
 				is_dashing=true
 				health_bar.scale=Vector2(0.5,0.5)
-				
+				AudioManager.play_sound("Dash")
 				dash_col.set_deferred("disabled",false)
 				var timer=create_tween().tween_interval(dash_time)
 				yield(timer,"finished")
@@ -114,7 +115,7 @@ func _physics_process(delta):
 		if !trail.enabled and can_dash:
 			handle_dashing()
 		if motion.length()<10 and hp_regen and health<100:
-			health=move_toward(health,100.0,2*delta)
+			health=move_toward(health,100.0,2.5*delta)
 	motion=move_and_slide(motion)
 
 func _on_HurtBox_body_entered(body):
@@ -123,6 +124,7 @@ func _on_HurtBox_body_entered(body):
 	motion=-aim*SPEED*2*stm_multiplier
 
 func _on_DashBox_area_entered(area):
+	AudioManager.play_sound("Powerup")
 	powerup_manager.pick_power(area.type)
 	area.pop()
 

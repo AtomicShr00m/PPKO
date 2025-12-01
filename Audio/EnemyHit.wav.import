@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/835721__matustrm__collected.wav-5793bdd1a5bf49b73ff7dc82c6b42e16.sample"
+path="res://.import/EnemyHit.wav-b6ab6e793f2063ba6a21af312d557989.sample"
 
 [deps]
 
-source_file="res://Audio/835721__matustrm__collected.wav"
-dest_files=[ "res://.import/835721__matustrm__collected.wav-5793bdd1a5bf49b73ff7dc82c6b42e16.sample" ]
+source_file="res://Audio/EnemyHit.wav"
+dest_files=[ "res://.import/EnemyHit.wav-b6ab6e793f2063ba6a21af312d557989.sample" ]
 
 [params]
 

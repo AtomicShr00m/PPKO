@@ -49,8 +49,8 @@ func spawn_powerups():
 		spawned.append(powerup.type)
 
 func spawn_enemy():
-	var enemy_name=roster.pop_front()
 	ui_layer.update_battle(4-roster.size())
+	var enemy_name=roster.pop_front()
 	var enemy:Boomer=enemy_loader.get_resource(enemy_name).instance()
 	enemy.atk_num=1+2*(3-roster.size())
 	enemy.position.x=rand_range(-320,320)

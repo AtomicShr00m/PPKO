@@ -71,18 +71,18 @@ size_flags_stretch_ratio = 0.5
 custom_constants/separation = 192
 alignment = 1
 
-[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
+[node name="HelpButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
 margin_right = 277.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
-text = "Play"
+text = "Help"
 
-[node name="HelpButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
+[node name="PlayButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
 margin_left = 469.0
 margin_right = 746.0
 margin_bottom = 60.0
 size_flags_horizontal = 3
-text = "Help"
+text = "Play"
 
 [node name="QuitButton" type="Button" parent="MainMenu/VBoxContainer/Buttons"]
 margin_left = 938.0
@@ -369,7 +369,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
 text = "Return"
 
-[connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/HelpButton" to="." method="_on_HelpButton_pressed"]
+[connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/PlayButton" to="." method="_on_PlayButton_pressed"]
 [connection signal="pressed" from="MainMenu/VBoxContainer/Buttons/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="HelpMenu/VBoxContainer/ReturnButton" to="." method="_on_ReturnButton_pressed"]

@@ -18,7 +18,7 @@ func _physics_process(delta):
 	else:
 		position.x=player.position.x
 		zoom_value=clamp(abs(position.x) / 480,1.0,1.5)
-	zoom=lerp(zoom,Vector2.ONE*zoom_value,20*delta)
+	zoom=lerp(zoom,Vector2.ONE*zoom_value,10*delta)
 
 
 func _on_Puncher_popped():

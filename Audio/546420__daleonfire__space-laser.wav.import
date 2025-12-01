@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/546420__daleonfire__space-laser.wav-20b118ba8186d7753b3207e4c4e3d695.sample"
+
+[deps]
+
+source_file="res://Audio/546420__daleonfire__space-laser.wav"
+dest_files=[ "res://.import/546420__daleonfire__space-laser.wav-20b118ba8186d7753b3207e4c4e3d695.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -48,22 +48,27 @@ func _physics_process(_delta):
 		timer_label.text=str(mins)+' : '+str(secs)
 
 func _on_ContinueButton_pressed():
+	AudioManager.play_sound("UI")
 	pause_menu.hide()
 	hud.show()
 	get_tree().paused=false
 
 func _on_RestartButton_pressed():
+	AudioManager.play_sound("UI")
 	get_tree().paused=false
 	get_tree().reload_current_scene()
 
 func _on_HelpButton_pressed():
+	AudioManager.play_sound("UI")
 	pause_main.hide()
 	help_menu.show()
 
 func _on_HomeButton_pressed():
+	AudioManager.play_sound("UI")
 	get_tree().paused=false
 	get_tree().change_scene("res://Rooms/Home.tscn")
 
 func _on_ReturnButton_pressed():
+	AudioManager.play_sound("UI")
 	pause_main.show()
 	help_menu.hide()

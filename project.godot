@@ -23,6 +23,10 @@ _global_script_class_icons={
 config/name="PPKO"
 run/main_scene="res://Rooms/Home.tscn"
 
+[autoload]
+
+AudioManager="*res://Audio/AudioManager.gd"
+
 [display]
 
 window/size/width=1280

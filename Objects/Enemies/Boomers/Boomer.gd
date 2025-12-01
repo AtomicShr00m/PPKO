@@ -43,6 +43,7 @@ func shoot(charged:=false):
 		blast.position=blast_spawn.global_position
 		var aim=Vector2.RIGHT.rotated(sprite.rotation)
 		var turn=n-int(atk_num/2.0)
+		AudioManager.play_sound("Shoot",1.0 / atk_num)
 		blast.dir=aim.rotated(turn * (PI/8))
 		blast.scale=Vector2.ONE*(int(charged) + 1)
 		get_parent().add_child(blast)
@@ -50,6 +51,7 @@ func shoot(charged:=false):
 func hit(dmg,from):
 	if !is_safe:
 		health-=dmg
+		AudioManager.play_sound("EnemyHit")
 		if health<=0:
 			pop()
 			queue_free()
